@@ -36,7 +36,6 @@
                 <div class="form-row">
                     <label for="card-element">Credit or debit card</label>
                     <div class="form-control" id="card-element"></div>
-                    <!-- used to display form error -->
                     <div id="card-errors" role="alert" class="text-danger"></div>
                 </div>
                 <div class="stripe-errors"></div>
@@ -53,6 +52,30 @@
             </form>
         </div>
     </div>
+</div>
+    <!-- notification testing -->
+    <section class="my-5">
+        <div class="container my-5">
+            <form action="{{ route('notification') }}" method="post">
+                @csrf
+                <div class="card">
+                    @if($errors->any())
+                        <div class="alert alert-danger mt-2" role="alert">
+                            @foreach ($errors->all() as $error)
+                            {{$error}} <br>
+                            @endforeach
+                        </div>
+                    @endif
+                    <h3 class="card-header">Notification testing</h3>
+                    <div class="mb-3">
+                        <label for="name" class="form-label ms-1">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter Product Name">
+                    </div>
+                    <button class="btn-sm btn-primary w-25 m-1" type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </section>
 @endsection
 @section('script')
 <script src="https://js.stripe.com/v3/"></script>

@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
+use App\Notifications\ProductNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
+
 
 class SubcriptionController extends Controller
 {
@@ -31,7 +35,7 @@ class SubcriptionController extends Controller
         
         return view('dashboard', [
             'intent' => $user->createSetupIntent(),
-        ]);
+        ],compact('user'));
     }
 
     public function processSubscription(Request $request)
@@ -49,4 +53,25 @@ class SubcriptionController extends Controller
     
         return redirect()->route('dashboard'); 
     }
+
+
+    public function Store(Request $request)
+    {
+        $user = auth()->user();
+        $request->validate([
+            'name' => 'required',
+        ]);
+        Notification::send($user,new ProductNotification($request->name));
+        Product::create($request->all());
+        return back()->with(['status' => 'Product added Successfully!']);
+    }
+
+    public function Maskasread($id)
+    {
+        if($id){
+            auth()->user()->unreadNotifications->where('id',$id)->markAsRead();
+        } 
+        return back();
+    }
 }
+ 

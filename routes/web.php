@@ -23,6 +23,9 @@ Route::get('/dashboard', [SubcriptionController::class,'index'])->middleware(['a
 
 // Route::get('/dashboard', [SubcriptionController::class,'showSubscription']);
 Route::post('subscribe', [SubcriptionController::class,'processSubscription'])->name('subscribe');
+Route::post('notification',[SubcriptionController::class,'Store'])->name('notification');
+Route::get('/maskasread/{id}',[SubcriptionController::class,'Maskasread'])->name('maskasread');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
